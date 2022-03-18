@@ -1,0 +1,19 @@
+{
+    "name": "piges/auth",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Piges\\Auth\\": "src/Piges/Auth"
+        }
+    },
+    "authors": [
+        {
+            "name": "Cavallaro Catello Stefano",
+            "email": "stefano@stepo.biz"
+        }
+    ],
+    "require": {
+        "firebase/php-jwt": "^6.0",
+        "codercat/jwk-to-pem": "^1.1"
+    }
+}
