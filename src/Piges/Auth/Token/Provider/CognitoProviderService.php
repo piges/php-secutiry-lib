@@ -4,25 +4,23 @@ namespace Piges\Auth\Token\Provider;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-use Piges\Auth\Authentication;
+use Piges\Auth\Dto\Authentication;
 use Piges\Auth\Token\RemoteJwkSigningKeyResolver;
-use Piges\Auth\Token\TokenService;
+use Piges\Auth\Token\AccessTokenService;
 
-class CognitoProviderService implements TokenService {
+class CognitoProviderService implements AccessTokenService {
 
 	public function getAuthentication(string $accessToken): Authentication {
 		$id = null;
 		$authorities = Array();
 		{
-			$accessTokenHeader = json_decode(base64_decode(str_replace('_', '/', str_replace('-','+',explode('.', $accessToken)[0]))));
-
-			$accessTokenObj = JWT::decode($accessToken, new Key(RemoteJwkSigningKeyResolver::GetKey($accessToken), $accessTokenHeader->alg));
+			$accessTokenBody = json_decode(base64_decode(str_replace('_', '/', str_replace('-','+',explode('.', $accessToken)[1]))));
 			
 			// Service account
-			if($accessTokenObj->sub == $accessTokenObj->client_id) {
-				$id = $accessTokenObj->sub;
+			if($accessTokenBody->sub == $accessTokenBody->client_id) {
+				$id = $accessTokenBody->sub;
 				
-				switch ($accessTokenObj->scope) {
+				switch ($accessTokenBody->scope) {
 					case 'PIGES.IO/SYSTEM':
 						$authorities[] = "ROLE_SYSTEM";
 						break;
@@ -35,10 +33,10 @@ class CognitoProviderService implements TokenService {
 			}
 
 			// User account
-			if($accessTokenObj->sub != $accessTokenObj->client_id) {
-				$id = str_replace("|", ".", $accessTokenObj->username);
+			if($accessTokenBody->sub != $accessTokenBody->client_id) {
+				$id = str_replace("|", ".", $accessTokenBody->username);
 
-				foreach ($accessTokenObj->{'cognito:groups'} as $key => $group) {
+				foreach ($accessTokenBody->{'cognito:groups'} as $key => $group) {
 					if($group == "ADMIN") {
 						$authorities[] = "ROLE_ADMIN";
 					}
@@ -49,7 +47,14 @@ class CognitoProviderService implements TokenService {
 	}
 
 	public function validateToken(string $accessToken): bool {
-		return true;
+		$accessTokenHeader = json_decode(base64_decode(str_replace('_', '/', str_replace('-','+',explode('.', $accessToken)[0]))));
+		$key = RemoteJwkSigningKeyResolver::GetKey($accessToken);
+		try {
+			JWT::decode($accessToken, new Key($key, $accessTokenHeader->alg));
+			return true;
+		} catch (\Throwable $th) {
+			return false;
+		}
 	}
 
 }

@@ -2,9 +2,9 @@
 
 namespace Piges\Auth\Token;
 
-use Piges\Auth\Authentication;
+use Piges\Auth\Dto\Authentication;
 
-interface TokenService {
+interface AccessTokenService {
 	
 	public function getAuthentication(string $accessToken): Authentication;
 

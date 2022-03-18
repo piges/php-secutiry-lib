@@ -3,7 +3,7 @@
     "type": "library",
     "autoload": {
         "psr-4": {
-            "Piges\\Auth\\": "src/Piges/Auth"
+            "Piges\\": "src/Piges"
         }
     },
     "authors": [

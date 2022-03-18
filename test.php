@@ -19,19 +19,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 header('Content-Type: application/json; charset=utf-8');
 
 use Piges\Auth\AuthenticationHolder;
-use Piges\Auth\SecurityFilter;
+use Piges\Auth\AuthFilter;
+use Piges\Ucp\UcpFilter;
+use Piges\Ucp\UcpHolder;
+
 require __DIR__ . '/vendor/autoload.php';
 
 
 $response = Array();
 
 try {
-	SecurityFilter::filter();
+	AuthFilter::filter();
+
+	UcpFilter::filter();
+
 
 	$response["data"] = Array(
 		'user' => AuthenticationHolder::getAuthentication()->getId(),
-		'token' => AuthenticationHolder::getAuthentication()->getToken(),
+		'tenant' => UcpHolder::getUcp()->getTenant()->getName(),
+		'eopoos' => UcpHolder::getUcp()->getEopoos(),
 		'auth' => AuthenticationHolder::getAuthentication()->getAuthorities(),
+		'permissions' => UcpHolder::getUcp()->getPermissions(),
 	);
 
 	$response["message"] = "yess";
@@ -41,7 +49,7 @@ try {
 } catch (\Throwable $th) {
 	$response["message"] = $th->getMessage();
 	$response["code"] = $th->getCode();
-	$response["error"] = $th;
+	$response["error"] = json_decode(json_encode($th), true);
 }
 
 http_response_code($response["code"]);

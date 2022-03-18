@@ -1,10 +1,12 @@
 <?php
 
-class AigContext {
+namespace Piges\Ucp\Dto;
+
+class Tenant {
 	
 	private string $name;
 
-	private string $contextCode;
+	private string $tenantCode;
 
 	private string $nameDatabase;
 
@@ -16,12 +18,12 @@ class AigContext {
 		$this->name = $name;
 	}
 
-	public function getContextCode(): string {
-		return $this->contextCode;
+	public function getTenantCode(): string {
+		return $this->tenantCode;
 	}
 
-	public function setContextCode(string $contextCode): void {
-		$this->contextCode = $contextCode;
+	public function setTenantCode(string $tenantCode): void {
+		$this->tenantCode = $tenantCode;
 	}
 
 	public function getNameDatabase(): string {
@@ -34,9 +36,9 @@ class AigContext {
 
 	public function toString(): string {
 		$sb = "";
-	    $sb =+ "class AigContext {\n";
+	    $sb =+ "class AigTenant {\n";
 	    $sb =+ "    name: "+$this->name+"\n";
-	    $sb =+ "    contextCode: "+$this->contextCode+"\n";
+	    $sb =+ "    tenantCode: "+$this->tenantCode+"\n";
 	    $sb =+ "    nameDatabase: "+$this->nameDatabase+"\n";
 	    $sb =+ "}";
 	    return $sb;

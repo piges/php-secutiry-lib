@@ -2,6 +2,8 @@
 
 namespace Piges\Auth;
 
+use Piges\Auth\Dto\Authentication;
+
 class AuthenticationHolder {
 
 	private static Authentication $authentication;

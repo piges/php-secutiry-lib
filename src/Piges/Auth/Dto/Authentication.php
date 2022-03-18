@@ -1,6 +1,6 @@
 <?php
 
-namespace Piges\Auth;
+namespace Piges\Auth\Dto;
 
 class Authentication {
 

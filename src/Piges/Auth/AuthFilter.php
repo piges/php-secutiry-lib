@@ -3,16 +3,16 @@
 namespace Piges\Auth;
 
 use Exception;
-use Piges\Auth\Token\TokenService;
+use Piges\Auth\Token\AccessTokenService;
 use Piges\Auth\Token\Provider\CognitoProviderService;
 
-class SecurityFilter {
+class AuthFilter {
 
-	private static TokenService $tokenService;
+	private static AccessTokenService $accessTokenService;
 
 	public static function filter() {
-		if(!isset(self::$tokenService) || self::$tokenService == null) {
-			self::$tokenService = new CognitoProviderService();
+		if(!isset(self::$accessTokenService) || self::$accessTokenService == null) {
+			self::$accessTokenService = new CognitoProviderService();
 		}
 		
 		$accessToken = self::getBearerToken();
@@ -21,11 +21,11 @@ class SecurityFilter {
 			throw new Exception("not readeable token", 401);
 		}
 
-		if(!self::$tokenService->validateToken($accessToken)) {
-			throw new Exception("not valid token", 401);
+		if(!self::$accessTokenService->validateToken($accessToken)) {
+			throw new Exception("not valid access token", 401);
 		}
 
-		AuthenticationHolder::setAuthentication(self::$tokenService->getAuthentication($accessToken));
+		AuthenticationHolder::setAuthentication(self::$accessTokenService->getAuthentication($accessToken));
 	}
 	
 	/**
