@@ -1,5 +1,7 @@
 {
-    "name": "piges/auth",
+    "name": "piges/security",
+	"version": "1.0.0",
+	"description": "Piges security library for PHP",
     "type": "library",
     "autoload": {
         "psr-4": {
@@ -13,7 +15,7 @@
         }
     ],
     "require": {
-        "firebase/php-jwt": "^6.0",
-        "codercat/jwk-to-pem": "^1.1"
+        "firebase/php-jwt": "6.0",
+        "codercat/jwk-to-pem": "1.1"
     }
 }

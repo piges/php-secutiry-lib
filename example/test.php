@@ -38,7 +38,7 @@ try {
 		'user' => AuthenticationHolder::getAuthentication()->getId(),
 		'tenant' => UcpHolder::getUcp()->getTenant()->getName(),
 		'eopoos' => UcpHolder::getUcp()->getEopoos(),
-		'auth' => AuthenticationHolder::getAuthentication()->getAuthorities(),
+		'authorities' => AuthenticationHolder::getAuthentication()->getAuthorities(),
 		'permissions' => UcpHolder::getUcp()->getPermissions(),
 	);
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4313b5c532b64a7cdb84ca0408f6f983",
+    "content-hash": "c5fba88a17e866ca151359e173e2f80f",
     "packages": [
         {
             "name": "codercat/jwk-to-pem",
