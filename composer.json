@@ -3,6 +3,7 @@
 	"version": "1.0.0",
 	"description": "Piges security library for PHP",
     "type": "library",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Piges\\": "src/Piges"
